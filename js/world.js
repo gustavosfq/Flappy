@@ -6,9 +6,10 @@ var world = {
 	create: function() {
 		self = this;
 
-		this.background = game.add.tileSprite(0, 0, 500, 500, 'background');
-		this.background.scale.setTo(2,2)
+		game.stage.backgroundColor = "#4fc0ca";
 
+		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
+		this.background.scale.setTo(2)
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		this.player = game.add.sprite(100, 200, 'bird');
@@ -21,7 +22,7 @@ var world = {
 
 		this.playerAnimation = game.add.tween(this.player).to({angle: -20}, 100);
 
-		this.playAgainTxt = game.add.text(width / 2, height / 2, 'Play again', {
+		this.playAgainTxt = game.add.text(width / 2, height / 2, 'Jugar denuevo', {
 			font: '24px Arial',
 			fill: '#fff'
 		});

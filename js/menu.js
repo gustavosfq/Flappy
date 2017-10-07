@@ -9,7 +9,7 @@ var menu = {
 			fill: '#fff'
 		});
 
-		var startTxt = game.add.text(game.world.x / 2, (game.world.y / 2) + 100, 'Start Game', {
+		var startTxt = game.add.text(game.world.x / 2, (game.world.y / 2) + 100, 'Comenzar', {
 			font: '24px Arial',
 			fill: '#fff'
 		});
