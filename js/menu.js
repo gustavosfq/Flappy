@@ -1,5 +1,9 @@
 var menu = {
 	create: function() {
+		this.background = game.add.sprite(0, 0, 'background');
+		this.background.width = width;
+		this.background.height = height;
+
 		var menuTxt = game.add.text(game.world.x / 2, game.world.y / 2, 'Menu', {
 			font: '24px Arial',
 			fill: '#fff'

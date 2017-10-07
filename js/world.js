@@ -5,13 +5,21 @@ var world = {
 	},
 	create: function() {
 		self = this;
+
+		this.background = game.add.tileSprite(0, 0, 500, 500, 'background');
+		this.background.scale.setTo(2,2)
+
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		this.player = game.add.sprite(100, 200, 'bird');
 		this.player.animations.add('jump', [0, 1, 2], 10, true);
+		this.player.animations.add('fall', [1], 10, true);
 
 		game.physics.arcade.enable(this.player);
 		this.player.body.gravity.y = 1000;
+		this.player.scale.setTo(0.5)
+
+		this.playerAnimation = game.add.tween(this.player).to({angle: -20}, 100);
 
 		this.playAgainTxt = game.add.text(width / 2, height / 2, 'Play again', {
 			font: '24px Arial',
@@ -35,12 +43,21 @@ var world = {
 			game.paused = true;
 			this.playAgainTxt.visible = true;
 		}
+		if (this.player.angle < 20) {
+			this.player.angle += 1;
+		}
+		if(this.player.angle < 0){
+			this.player.animations.play('jump');
+		}else{
+			this.player.animations.play('fall');
+		}
+		this.background.tilePosition.x -= 0.5;
 	},
 	render: function() {
 		//game.debug.body(this.player);
 	},
 	jump: function() {
-		this.player.animations.play('jump');
+		this.playerAnimation.start();
 		this.player.body.velocity.y = -350;
 	}
 
