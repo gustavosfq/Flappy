@@ -1,22 +1,27 @@
 var menu = {
+	preload:function() {
+		game.load.image('logo', 'img/logo.png');
+		game.load.image('start', 'img/start.png');
+	},
 	create: function() {
-		this.background = game.add.sprite(0, 0, 'background');
-		this.background.width = width;
-		this.background.height = height;
+		self = this;
+		game.stage.backgroundColor = "#70c4ce";
+		
 
-		var menuTxt = game.add.text(game.world.x / 2, game.world.y / 2, 'Menu', {
-			font: '24px Arial',
-			fill: '#fff'
-		});
+		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
+		this.background.scale.setTo(2)
 
-		var startTxt = game.add.text(game.world.x / 2, (game.world.y / 2) + 100, 'Comenzar', {
-			font: '24px Arial',
-			fill: '#fff'
-		});
+		this.logo = game.add.sprite((width / 2) - (game.cache.getImage('logo').width), -game.cache.getImage('logo').height, 'logo');
+		this.start = game.add.sprite((width / 2) - (game.cache.getImage('start').width), height + game.cache.getImage('start').height, 'start');
+		this.logo.scale.setTo(2);
+		this.start.scale.setTo(2);
 
-		startTxt.inputEnabled = true;
-		startTxt.events.onInputUp.add(function(){
-			game.state.start('world');
+		game.add.tween(this.logo).to({y: 100}, 500).start()
+		game.add.tween(this.start).to({y: 200}, 500).start().onComplete.add(function() {
+			self.start.inputEnabled = true;
+			self.start.events.onInputDown.add(function(){
+				game.state.start('world');
+			})
 		})
 	},
 	update: function() {

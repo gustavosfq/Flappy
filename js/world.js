@@ -6,11 +6,11 @@ var world = {
 	create: function() {
 		self = this;
 
-		game.stage.backgroundColor = "#4fc0ca";
+		game.stage.backgroundColor = "#70c4ce";
+		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
 		this.background.scale.setTo(2)
-		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		this.player = game.add.sprite(100, 200, 'bird');
 		this.player.animations.add('jump', [0, 1, 2], 10, true);
