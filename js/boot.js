@@ -1,11 +1,16 @@
 var boot = {
-	preload: function(){
+	preload:function() {
+		game.load.image('logo', 'img/logo.png');
+		game.load.image('start', 'img/start.png');
+		game.load.image('pipe', 'img/pipe.png');
+		game.load.image('pipe_up', 'img/pipe_up.png');
+		game.load.image('pipe_down', 'img/pipe_down.png');
+		game.load.spritesheet('bird', 'img/bird.png', 72, 48);
 		game.load.image('background', 'img/background.png');
+		game.load.audio('wing', ['sound/wing.wav', 'sound/wing.ogg'])
 	},
 	create: function() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
-
-		this.background = game.add.tileSprite(0, 0,  500,500, 'background');
 		game.state.start('menu');
 	}
 }

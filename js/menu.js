@@ -1,12 +1,7 @@
 var menu = {
-	preload:function() {
-		game.load.image('logo', 'img/logo.png');
-		game.load.image('start', 'img/start.png');
-	},
 	create: function() {
 		self = this;
 		game.stage.backgroundColor = "#70c4ce";
-		
 
 		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
 		this.background.scale.setTo(2)
