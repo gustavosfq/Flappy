@@ -15,7 +15,7 @@ var world = {
 		this.player.animations.add('jump', [0, 1, 2], 10, true);
 		this.player.animations.add('fall', [1], 10, true);
 		game.physics.arcade.enable(this.player);
-		//this.player.body.gravity.y = 1000;
+		this.player.body.gravity.y = 1000;
 		this.player.scale.setTo(0.5);
 		this.playerAnimation = game.add.tween(this.player).to({
 			angle: -20
@@ -66,7 +66,7 @@ var world = {
 	},
 	jump: function() {
 		this.playerAnimation.start();
-		//this.wing.play();
+		this.wing.play();
 		this.player.body.velocity.y = -350;
 	},
 	addRows: function() {
