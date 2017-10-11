@@ -5,7 +5,10 @@ var menu = {
 
 		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
 		this.background.scale.setTo(2)
-
+		
+		this.ground = game.add.tileSprite(0, height - (game.cache.getImage('ground').height * 2), width, height, 'ground');
+		this.ground.scale.setTo(2);
+		
 		this.logo = game.add.sprite((width / 2) - (game.cache.getImage('logo').width), -game.cache.getImage('logo').height, 'logo');
 		this.start = game.add.sprite((width / 2) - (game.cache.getImage('start').width), height + game.cache.getImage('start').height, 'start');
 		this.logo.scale.setTo(2);

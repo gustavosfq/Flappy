@@ -8,6 +8,9 @@ var boot = {
 		game.load.spritesheet('bird', 'img/bird.png', 72, 48);
 		game.load.image('background', 'img/background.png');
 		game.load.image('numbers', 'img/numbers.png');
+		game.load.image('ground', 'img/ground.png');
+		game.load.image('game_over', 'img/game_over.png');
+		game.load.image('play', 'img/play.png');
 		game.load.audio('wing', ['sound/wing.wav', 'sound/wing.ogg']);
 	},
 	create: function() {

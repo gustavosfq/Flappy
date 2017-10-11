@@ -11,6 +11,7 @@ var world = {
 		this.background.scale.setTo(2);
 
 
+
 		this.rowGroup = game.add.group();
 
 		this.player = game.add.sprite(width / 8, 200, 'bird');
@@ -39,17 +40,15 @@ var world = {
 		this.timer = game.time.events.loop(1500, this.addRows, this);
 
 		//again button
-		this.playAgainTxt = game.add.text(width/2 - 30, height / 2, 'Again', {
-			font: '24px Arial',
-			fill: '#fff'
-		});
+		this.playAgainImage = game.add.image((width / 2) - ((game.cache.getImage('play').width * 3) / 2), height / 2, 'play');
 
-		this.playAgainTxt.inputEnabled = true;
-		this.playAgainTxt.events.onInputUp.add(function() {
+		this.playAgainImage.inputEnabled = true;
+		this.playAgainImage.events.onInputUp.add(function() {
 			game.paused = false;
 			game.state.start('world');
-		})
-		this.playAgainTxt.visible = false;
+		});
+		this.playAgainImage.scale.setTo(3);
+		this.playAgainImage.visible = false;
 
 
 		game.input.onDown.add(function() {
@@ -59,6 +58,11 @@ var world = {
 		spaceKey.onDown.add(function() {
 			self.jump();
 		});
+		this.ground = game.add.tileSprite(0, height - (game.cache.getImage('ground').height * 2), width, height, 'ground');
+		this.ground.scale.setTo(2);
+		this.gameOver = game.add.image((width / 2) - ((game.cache.getImage('game_over').width * 2) / 2), height / 2 - 100, 'game_over');
+		this.gameOver.scale.setTo(2);
+		this.gameOver.visible = false;
 	},
 	update: function() {
 		if (this.player.alive) {
@@ -74,17 +78,20 @@ var world = {
 				this.player.animations.play('fall');
 			}
 			this.background.tilePosition.x -= 0.5;
+			this.ground.tilePosition.x -= 1.25;
 		}
 		if (this.player.angle < 20) {
 			this.player.angle += 1;
 		}
-		if (this.player.y > height) {
+
+		if (this.player.y + this.player.height*1.5 > this.ground.y) {
+			this.gameOver.visible = true;
 			game.paused = true;
-			this.playAgainTxt.visible = true;
+			this.playAgainImage.visible = true;
 		}
 	},
 	render: function() {
-		game.debug.body(this.player);
+		//game.debug.body(this.player);
 	},
 	jump: function() {
 		if(this.player.alive){
@@ -96,7 +103,7 @@ var world = {
 	addRows: function() {
 		this.score++;
 		this.font.text = this.score.toString();
-		var hole = Math.floor(Math.random() * (this.rows - 4)) + 1;
+		var hole = Math.floor(Math.random() * (this.rows - 6)) + 1;
 		for (var i = 0; i < this.rows; i++) {
 			if (i == hole - 1) {
 				this.row(width, this.pipeHeight * i, 1)
@@ -124,7 +131,7 @@ var world = {
 			pipe.kill();
 		});
 		game.physics.arcade.enable(pipe);
-		pipe.body.velocity.x = -200;
+		pipe.body.velocity.x = -150;
 		this.rowGroup.add(pipe);
 	},
 	pipeHit: function() {
@@ -133,6 +140,9 @@ var world = {
 		this.rowGroup.forEach(function(pipe) {
 			pipe.body.velocity.x = 0;
 		})
+	},
+	gameOver: function() {
+		game.add
 	}
 
 }
