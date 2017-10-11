@@ -2,13 +2,14 @@ var world = {
 	create: function() {
 		self = this;
 		//variables
-		this.game.stage.backgroundColor = '#000';
+		this.game.stage.backgroundColor = backgroundColor;
 		this.rows = Math.ceil(height / game.cache.getImage('pipe_up').height);
 		this.pipeHeight = game.cache.getImage('pipe_up').height;
 
 		//game adds
 		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
 		this.background.scale.setTo(2);
+
 
 		this.rowGroup = game.add.group();
 
@@ -25,15 +26,15 @@ var world = {
 			angle: -20
 		}, 100);
 		this.wing = game.add.audio('wing');
-		this.score = -1;
-		this.scoreTxt = game.add.text(width/2 - 20, 60, '0', {
-			font: '24px Arial',
-			fill: '#fff'
-		});
+		this.font = game.add.retroFont('numbers', 7, 10, "0123456789", 1);
+		this.score = 10;
+		this.font.text = this.score.toString();
+
+		this.scoreImage = game.add.image(game.world.centerX - 30, 30, this.font);
+		this.scoreImage.scale.setTo(3)
 
 
 		//game settings
-		game.stage.backgroundColor = "#70c4ce";
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		this.timer = game.time.events.loop(1500, this.addRows, this);
 
@@ -94,7 +95,7 @@ var world = {
 	},
 	addRows: function() {
 		this.score++;
-		this.scoreTxt.text = this.score;
+		this.font.text = this.score.toString();
 		var hole = Math.floor(Math.random() * (this.rows - 4)) + 1;
 		for (var i = 0; i < this.rows; i++) {
 			if (i == hole - 1) {

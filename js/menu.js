@@ -1,7 +1,7 @@
 var menu = {
 	create: function() {
 		self = this;
-		game.stage.backgroundColor = "#70c4ce";
+		game.stage.backgroundColor = backgroundColor;
 
 		this.background = game.add.tileSprite(0, height - (game.cache.getImage('background').height * 2), width, height - game.cache.getImage('background').height, 'background');
 		this.background.scale.setTo(2)

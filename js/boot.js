@@ -7,8 +7,8 @@ var boot = {
 		game.load.image('pipe_down', 'img/pipe_down.png');
 		game.load.spritesheet('bird', 'img/bird.png', 72, 48);
 		game.load.image('background', 'img/background.png');
+		game.load.image('numbers', 'img/numbers.png');
 		game.load.audio('wing', ['sound/wing.wav', 'sound/wing.ogg']);
-		game.stage.backgroundColor = "#000000"
 	},
 	create: function() {
 		game.physics.startSystem(Phaser.Physics.ARCADE);
