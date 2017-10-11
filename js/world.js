@@ -28,7 +28,7 @@ var world = {
 		}, 100);
 		this.wing = game.add.audio('wing');
 		this.font = game.add.retroFont('numbers', 7, 10, "0123456789", 1);
-		this.score = 10;
+		this.score = 0;
 		this.font.text = this.score.toString();
 
 		this.scoreImage = game.add.image(game.world.centerX - 30, 30, this.font);
