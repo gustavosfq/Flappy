@@ -13,8 +13,9 @@ var world = {
 
 
 		this.rowGroup = game.add.group();
+		this.upPipeGroup = game.add.group();
 
-		this.player = game.add.sprite(width / 8, 200, 'bird');
+		this.player = game.add.sprite(width / 4, 200, 'bird');
 		this.player.animations.add('jump', [0, 1, 2], 10, true);
 		this.player.animations.add('fall', [1], 10, true);
 		game.physics.arcade.enable(this.player);
@@ -37,7 +38,6 @@ var world = {
 
 		//game settings
 		game.physics.startSystem(Phaser.Physics.ARCADE);
-		this.timer = game.time.events.loop(1500, this.addRows, this);
 
 		//again button
 		this.playAgainImage = game.add.image((width / 2) - ((game.cache.getImage('play').width * 3) / 2), height / 2, 'play');
@@ -63,10 +63,14 @@ var world = {
 		this.gameOver = game.add.image((width / 2) - ((game.cache.getImage('game_over').width * 2) / 2), height / 2 - 100, 'game_over');
 		this.gameOver.scale.setTo(2);
 		this.gameOver.visible = false;
+
+		setTimeout(function() {
+			self.addRows();
+		}, 500)
 	},
 	update: function() {
 		if (this.player.alive) {
-			if (game.physics.arcade.overlap(this.player, this.rowGroup)) {
+			if (game.physics.arcade.overlap(this.player, [this.rowGroup, this.upPipeGroup])) {
 				this.pipeHit();
 			}
 			if(this.player.y < 0){
@@ -89,9 +93,22 @@ var world = {
 			game.paused = true;
 			this.playAgainImage.visible = true;
 		}
+		this.upPipeGroup.forEach(function(pipe) {
+			if (!pipe.touched && (pipe.x < self.player.x)){
+				pipe.touched = true;
+				self.score++;
+				self.font.text = self.score.toString();
+			}
+			if (!pipe.createPipe && pipe.x < width / 3) {
+				pipe.createPipe = true;
+				self.addRows();
+			}
+		});	
+		game.time.advancedTiming = true;
 	},
 	render: function() {
 		//game.debug.body(this.player);
+		game.debug.text(game.time.fps, 2, 14, "#00ff00");
 	},
 	jump: function() {
 		if(this.player.alive){
@@ -101,8 +118,6 @@ var world = {
 		}
 	},
 	addRows: function() {
-		this.score++;
-		this.font.text = this.score.toString();
 		var hole = Math.floor(Math.random() * (this.rows - 6)) + 1;
 		for (var i = 0; i < this.rows; i++) {
 			if (i == hole - 1) {
@@ -115,6 +130,7 @@ var world = {
 		}
 	},
 	row: function(x, y, i) {
+		self = this;
 		switch (i) {
 			case 0:
 				pipe = game.add.sprite(x, y, 'pipe');
@@ -128,18 +144,24 @@ var world = {
 		}
 		pipe.checkWorldBounds = true;
 		pipe.events.onOutOfBounds.add(function(pipe){
-			pipe.kill();
+			pipe.destroy();
 		});
 		game.physics.arcade.enable(pipe);
 		pipe.body.velocity.x = -150;
-		this.rowGroup.add(pipe);
+		if(pipe.key == 'pipe_up'){
+			this.upPipeGroup.add(pipe)
+		}else{
+			this.rowGroup.add(pipe);
+		}
 	},
 	pipeHit: function() {
 		this.player.alive = false;
-		game.time.events.remove(this.timer);
 		this.rowGroup.forEach(function(pipe) {
 			pipe.body.velocity.x = 0;
-		})
+		});
+		this.upPipeGroup.forEach(function(pipe) {
+			pipe.body.velocity.x = 0;
+		});
 	},
 	gameOver: function() {
 		game.add
